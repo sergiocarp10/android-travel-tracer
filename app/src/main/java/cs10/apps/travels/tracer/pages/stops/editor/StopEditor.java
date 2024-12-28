@@ -33,6 +33,8 @@ public class StopEditor extends CSActivity implements AdapterView.OnItemSelected
             "Hubo un problema al escribir en la base de datos"
     };
 
+    public static final String IDENTIFIER_KEY = "stopName";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +48,7 @@ public class StopEditor extends CSActivity implements AdapterView.OnItemSelected
         binding.fab.setOnClickListener(view -> doInBackground(this::performDone));
         content.tvTitle.setText(getString(R.string.editing_stop));
 
-        originalName = getIntent().getExtras().getString("stopName");
+        originalName = getIntent().getExtras().getString(IDENTIFIER_KEY);
         content.etStopName.setText(originalName);
 
         doInBackground(() -> {

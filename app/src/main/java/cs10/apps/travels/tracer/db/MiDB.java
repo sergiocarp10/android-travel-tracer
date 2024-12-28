@@ -19,7 +19,7 @@ import cs10.apps.travels.tracer.model.Parada;
 import cs10.apps.travels.tracer.model.Recarga;
 import cs10.apps.travels.tracer.model.Tren;
 import cs10.apps.travels.tracer.model.Viaje;
-import cs10.apps.travels.tracer.model.Zone;
+import cs10.apps.travels.tracer.pages.manage_zones.model.Zone;
 import cs10.apps.travels.tracer.model.lines.CustomBusLine;
 import cs10.apps.travels.tracer.model.prices.TarifaBus;
 import cs10.apps.travels.tracer.model.prices.TarifaTren;
@@ -35,6 +35,7 @@ import cs10.apps.travels.tracer.pages.registry.db.TravelsDao;
 import cs10.apps.travels.tracer.pages.stops.db.ParadasDao;
 import cs10.apps.travels.tracer.pages.stops.db.SafeStopsDao;
 import cs10.apps.travels.tracer.pages.registry.db.ViajesDao;
+import cs10.apps.travels.tracer.pages.stops.db.StopsDao;
 import cs10.apps.travels.tracer.pages.stops.db.TrainsDao;
 
 @Database(entities = {Circuito.class, Comunicacion.class, Estacion.class, FormacionCircuito.class,
@@ -285,6 +286,7 @@ public abstract class MiDB extends RoomDatabase {
     };
 
     // DAOs
+    public abstract StopsDao stopsDao();
     public abstract SafeStopsDao safeStopsDao();
     public abstract ParadasDao paradasDao();
     public abstract ViajesDao viajesDao();

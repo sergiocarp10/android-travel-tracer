@@ -118,6 +118,8 @@
         <!-- 2024 -->
         <activity android:name=".pages.stops.StopInfoActivity"
             android:theme="@style/Theme.TravelTracer.Buses" />
+        <activity android:name=".pages.manage_zones.ZoneViewActivity"
+            android:theme="@style/Theme.TravelTracer.Buses" />
     </application>
 
 </manifest>

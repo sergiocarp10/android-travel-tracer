@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import cs10.apps.common.android.ui.CS_Fragment
 import cs10.apps.travels.tracer.databinding.FragmentManageZonesBinding
 import cs10.apps.travels.tracer.db.MiDB
-import cs10.apps.travels.tracer.model.Zone
 import cs10.apps.travels.tracer.pages.manage_zones.adapter.ZoneManagerAdapter
+import cs10.apps.travels.tracer.pages.manage_zones.model.Zone
 import cs10.apps.travels.tracer.pages.manage_zones.viewmodel.ZoneManagerVM
 import cs10.apps.travels.tracer.viewmodel.RootVM
 
@@ -83,8 +83,9 @@ class ZoneManagerFragment : CS_Fragment() {
     private fun onZoneClick(item: Zone) {
         zoneManagerVM.selectEditing(item)
 
-        val intent = Intent(requireActivity(), ZoneEditor::class.java)
+        val intent = Intent(requireActivity(), ZoneViewActivity::class.java)
         intent.putExtra("id", item.id)
+        intent.putExtra("name", item.name)
         startActivity(intent)
     }
 

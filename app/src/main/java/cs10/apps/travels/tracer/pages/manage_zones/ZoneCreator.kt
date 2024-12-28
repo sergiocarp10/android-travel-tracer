@@ -2,22 +2,18 @@ package cs10.apps.travels.tracer.pages.manage_zones
 
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import cs10.apps.common.android.NumberUtils
-import cs10.apps.common.android.ui.FormActivity
-import cs10.apps.travels.tracer.utils.Utils
+import cs10.apps.common.android.ui.LocalizableActivity
+import cs10.apps.travels.tracer.common.enums.StatusCode
 import cs10.apps.travels.tracer.databinding.ActivityZoneCreatorBinding
 import cs10.apps.travels.tracer.db.MiDB
-import cs10.apps.travels.tracer.common.enums.StatusCode
-import cs10.apps.travels.tracer.model.Zone
+import cs10.apps.travels.tracer.pages.manage_zones.model.Zone
+import cs10.apps.travels.tracer.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ZoneCreator : FormActivity() {
-
+class ZoneCreator : LocalizableActivity() {
     private lateinit var binding: ActivityZoneCreatorBinding
-    private lateinit var client: FusedLocationProviderClient
     private var details: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,9 +25,10 @@ class ZoneCreator : FormActivity() {
         Utils.loadBusBanner(binding.appbarImage)
         binding.toolbarLayout.title = "Nueva zona"
 
-        // Location
-        client = LocationServices.getFusedLocationProviderClient(this)
-        getLocation()
+        getLocation { latitude, longitude ->
+            binding.etLatitude.setText(latitude.toString())
+            binding.etLongitude.setText(longitude.toString())
+        }
 
         // Save Button
         binding.fab.setOnClickListener { onFabClicked() }
@@ -41,19 +38,10 @@ class ZoneCreator : FormActivity() {
     }
 
     private fun onFabClicked() {
-
         lifecycleScope.launch(Dispatchers.IO){
             val status = checkEntries()
             doInForeground { checkStatus(status) }
         }
-
-        /*
-        doInBackground {
-            val status = checkEntries()
-            doInForeground { checkStatus(status) }
-        }
-
-         */
     }
 
     private fun checkStatus(status: StatusCode) {
@@ -73,16 +61,6 @@ class ZoneCreator : FormActivity() {
             StatusCode.OVERLAP_RADIX -> {
                 showLongToast("Atención: superposición con $details")
                 finish()
-            }
-        }
-    }
-
-    @Throws(SecurityException::class)
-    private fun getLocation() {
-        if (Utils.checkPermissions(this)) client.lastLocation.addOnSuccessListener {
-            if (it != null){
-                binding.etLatitude.setText(it.latitude.toString())
-                binding.etLongitude.setText(it.longitude.toString())
             }
         }
     }

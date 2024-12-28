@@ -10,6 +10,7 @@ import androidx.room.PrimaryKey;
 import cs10.apps.common.android.DoubleHistory;
 import cs10.apps.common.android.Localizable;
 import cs10.apps.common.android.NumberUtils;
+import cs10.apps.travels.tracer.pages.manage_zones.model.Zone;
 
 @Entity
 public class Parada extends Localizable implements Comparable<Parada> {

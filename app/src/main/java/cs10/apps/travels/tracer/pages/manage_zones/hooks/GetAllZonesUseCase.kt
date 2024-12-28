@@ -1,7 +1,7 @@
 package cs10.apps.travels.tracer.pages.manage_zones.hooks
 
 import cs10.apps.travels.tracer.pages.manage_zones.db.ZonesDao
-import cs10.apps.travels.tracer.model.Zone
+import cs10.apps.travels.tracer.pages.manage_zones.model.Zone
 
 class GetAllZonesUseCase(private val dao: ZonesDao) {
 

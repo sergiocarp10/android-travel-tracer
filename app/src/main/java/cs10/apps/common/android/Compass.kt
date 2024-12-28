@@ -11,11 +11,11 @@ class Compass(val startX: Double, val startY: Double, val currentLocation: Locat
         }
 
         fun isForward(angle: Double) = angle in 70.0..110.0
-    }
 
-    fun getAngle(diffLatitude: Double, diffLongitude: Double) : Double {
-        val angle = Math.toDegrees(atan2(diffLatitude, diffLongitude))
-        return if (angle < 0) angle + 360 else angle
+        fun getAngle(diffLatitude: Double, diffLongitude: Double) : Double {
+            val angle = Math.toDegrees(atan2(diffLatitude, diffLongitude))
+            return if (angle < 0) angle + 360 else angle
+        }
     }
 
     fun getAngleToDestination() : Double {

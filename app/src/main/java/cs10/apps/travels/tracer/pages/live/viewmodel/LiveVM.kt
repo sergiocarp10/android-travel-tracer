@@ -28,7 +28,7 @@ import cs10.apps.travels.tracer.model.NextZone
 import cs10.apps.travels.tracer.model.Parada
 import cs10.apps.travels.tracer.model.Point
 import cs10.apps.travels.tracer.model.Viaje
-import cs10.apps.travels.tracer.model.Zone
+import cs10.apps.travels.tracer.pages.manage_zones.model.Zone
 import cs10.apps.travels.tracer.model.joins.ColoredTravel
 import cs10.apps.travels.tracer.model.roca.RamalSchedule
 import cs10.apps.travels.tracer.pages.live.hooks.GetCurrentTravelUseCase

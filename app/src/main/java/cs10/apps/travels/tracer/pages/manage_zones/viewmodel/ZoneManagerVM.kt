@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import cs10.apps.travels.tracer.db.MiDB
 import cs10.apps.travels.tracer.pages.manage_zones.db.ZonesDao
 import cs10.apps.travels.tracer.pages.manage_zones.hooks.GetAllZonesUseCase
-import cs10.apps.travels.tracer.model.Zone
+import cs10.apps.travels.tracer.pages.manage_zones.model.Zone
 import cs10.apps.travels.tracer.viewmodel.RootVM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

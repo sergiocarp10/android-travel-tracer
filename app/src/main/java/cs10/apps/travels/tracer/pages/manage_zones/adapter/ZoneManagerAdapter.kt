@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import cs10.apps.travels.tracer.R
-import cs10.apps.travels.tracer.model.Zone
+import cs10.apps.travels.tracer.pages.manage_zones.model.Zone
 
 class ZoneManagerAdapter(
     var list: MutableList<Zone>,

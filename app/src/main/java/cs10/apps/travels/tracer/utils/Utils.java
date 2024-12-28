@@ -23,10 +23,12 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 
+import cs10.apps.common.android.Compass;
 import cs10.apps.common.android.Localizable;
 import cs10.apps.travels.tracer.R;
 import cs10.apps.travels.tracer.common.enums.TransportType;
 import cs10.apps.travels.tracer.model.Parada;
+import cs10.apps.travels.tracer.model.Point;
 import cs10.apps.travels.tracer.model.Viaje;
 import cs10.apps.travels.tracer.model.joins.TravelStats;
 
@@ -99,6 +101,7 @@ public class Utils {
             case 0: return R.color.bus;
             case 1: return R.color.train;
             case 2: return R.color.bus_159;
+            case 3: return R.color.bus_148;
             default: return R.color.black;
         }
     }
@@ -300,6 +303,12 @@ public class Utils {
             case 12: return "Dic";
             default: return "";
         }
+    }
+
+    public static double calculateAngle(@NotNull Parada it, double latitude, double longitude) {
+        Localizable start = new Point(latitude, longitude);
+        Localizable end = new Point(it.getLatitud(), it.getLongitud());
+        return Compass.Companion.getAngle(end.getX() - start.getX(), end.getY() - start.getY());
     }
 
     public enum Direction {

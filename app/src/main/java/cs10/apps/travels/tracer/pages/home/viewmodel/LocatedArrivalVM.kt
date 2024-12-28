@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import cs10.apps.travels.tracer.db.DynamicQuery
 import cs10.apps.travels.tracer.db.MiDB
 import cs10.apps.travels.tracer.model.Parada
-import cs10.apps.travels.tracer.model.Zone
+import cs10.apps.travels.tracer.pages.manage_zones.model.Zone
 import cs10.apps.travels.tracer.model.joins.ColoredTravel
 import cs10.apps.travels.tracer.model.roca.ArriboTren
 import cs10.apps.travels.tracer.pages.registry.utils.AutoRater.Companion.calculateRate

@@ -5,7 +5,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import cs10.apps.travels.tracer.utils.Utils
 import cs10.apps.travels.tracer.databinding.ItemZoneBinding
-import cs10.apps.travels.tracer.model.Zone
+import cs10.apps.travels.tracer.pages.manage_zones.model.Zone
 
 class ZoneViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val binding = ItemZoneBinding.bind(view)

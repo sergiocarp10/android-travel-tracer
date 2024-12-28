@@ -4,11 +4,11 @@ import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import cs10.apps.common.android.NumberUtils
 import cs10.apps.common.android.ui.FormActivity
-import cs10.apps.travels.tracer.utils.Utils
+import cs10.apps.travels.tracer.common.enums.StatusCode
 import cs10.apps.travels.tracer.databinding.ActivityZoneCreatorBinding
 import cs10.apps.travels.tracer.db.MiDB
-import cs10.apps.travels.tracer.common.enums.StatusCode
-import cs10.apps.travels.tracer.model.Zone
+import cs10.apps.travels.tracer.pages.manage_zones.model.Zone
+import cs10.apps.travels.tracer.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
