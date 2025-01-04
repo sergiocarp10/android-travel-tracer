@@ -82,7 +82,8 @@ interface LinesDao {
 
     @Query("SELECT L.*, AVG(V.rate) as avgUserRate, COUNT(V.rate) as reviewsCount " +
             "FROM lines L LEFT JOIN Viaje V ON L.number = V.linea " +
-            "WHERE V.year = :currentYear AND V.month >= :startMonth GROUP BY L.id")
+            "WHERE (V.year = :currentYear AND V.month >= :startMonth) " +
+            "OR (V.year = :currentYear - 1 AND V.month >= :startMonth + 12) GROUP BY L.id")
     suspend fun getAllRecentWithRates(currentYear: Int, startMonth: Int) : MutableList<RatedBusLine>
 
     @Query("SELECT D.id, D.number, D.name, D.color, " +
