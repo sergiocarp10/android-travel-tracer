@@ -1,17 +1,31 @@
 package cs10.apps.travels.tracer.modules.lines.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
 import cs10.apps.travels.tracer.R
 import cs10.apps.travels.tracer.Utils
 import cs10.apps.travels.tracer.enums.TransportType
-import cs10.apps.travels.tracer.modules.lines.db.LinesDao
 import cs10.apps.travels.tracer.model.joins.RatedBusLine
 import cs10.apps.travels.tracer.model.lines.CustomBusLine
+import cs10.apps.travels.tracer.modules.lines.db.LinesDao
 import cs10.apps.travels.tracer.viewmodel.RootVM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
+/**
+ * SUGERENCIAS
+ * 1. Crear un filtro para líneas recientes (este mes y el anterior)
+ */
+
+
+/**
+ * ViewModel para la administración de líneas de colectivos
+ */
 class LineManagerVM(application: Application) : AndroidViewModel(application) {
 
     // mis live data
@@ -19,22 +33,17 @@ class LineManagerVM(application: Application) : AndroidViewModel(application) {
     private lateinit var editingLine: CustomBusLine
 
 
-    fun load(linesDao: LinesDao, rootVM: RootVM){
+    fun load(linesDao: LinesDao, rootVM: RootVM, recent: Boolean = true){
         rootVM.enableLoading()
 
         viewModelScope.launch(Dispatchers.IO){
-            val numbers1 = linesDao.getCustomNumbers()
+            val currentTime = Calendar.getInstance()
+            val currentYear = currentTime.get(Calendar.YEAR)
+            val startMonth = currentTime.get(Calendar.MONTH) - 2
 
-            linesDao.getAllFromViajes().forEach { number ->
-                if (!numbers1.contains(number)) {
-                    val obj = CustomBusLine(0, number, null, 0)
-                    linesDao.insert(obj)
-                    numbers1.add(number)
-                }
-            }
-
-            // recargar con las lineas recién creadas desde viajes
-            val lines = linesDao.getAllWithRates()
+            // load all lines from travel table
+            val lines = if (recent) linesDao.getAllRecentWithRates(currentYear, startMonth)
+            else linesDao.getAllWithRates()
 
             // calculate speed for each line using last travel
             lines.forEach {
@@ -45,7 +54,7 @@ class LineManagerVM(application: Application) : AndroidViewModel(application) {
             }
 
             // TRAIN travels
-            val train = RatedBusLine(-1, -1, "Línea Roca", R.color.train,
+            val train = RatedBusLine(-1, -1, "En Tren", R.color.train,
                 avgUserRate = rootVM.database.travelsDao().getAverageRateForType(TransportType.TRAIN.ordinal),
                 reviewsCount = rootVM.database.travelsDao().getReviewsCountForType(TransportType.TRAIN.ordinal))
             train.speed = Utils.calculateAverageSpeed(
@@ -59,6 +68,14 @@ class LineManagerVM(application: Application) : AndroidViewModel(application) {
             cars.speed = Utils.calculateAverageSpeed(
                 rootVM.database.viajesDao().getRecentFinishedTravelsFromType(TransportType.CAR.ordinal))
             lines.add(cars)
+
+            // METRO travels
+            val subways = RatedBusLine(-3, -1, "En Subte", R.color.bus_148,
+                rootVM.database.travelsDao().getAverageRateForType(TransportType.METRO.ordinal),
+                rootVM.database.travelsDao().getReviewsCountForType(TransportType.METRO.ordinal))
+
+            subways.speed = Utils.calculateAverageSpeed(rootVM.database.viajesDao().getRecentFinishedTravelsFromType(TransportType.METRO.ordinal))
+            lines.add(subways)
 
             // Sort everything by speed
             lines.sort()

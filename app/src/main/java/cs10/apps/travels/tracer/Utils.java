@@ -19,7 +19,6 @@ import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
@@ -29,10 +28,13 @@ import cs10.apps.travels.tracer.enums.TransportType;
 import cs10.apps.travels.tracer.model.Parada;
 import cs10.apps.travels.tracer.model.Viaje;
 import cs10.apps.travels.tracer.model.joins.TravelStats;
+import cs10.apps.travels.tracer.utils.LocaleDecimalFormat;
+
 
 public class Utils {
-    private static final DecimalFormat df = new DecimalFormat("0.00");
-    private static final DecimalFormat rf = new DecimalFormat("0.0");
+    private static final LocaleDecimalFormat df = new LocaleDecimalFormat(2);
+
+    private static final LocaleDecimalFormat rf = new LocaleDecimalFormat(1);
 
     @NonNull
     public static String twoDecimals(int value) {
@@ -279,6 +281,25 @@ public class Utils {
 
     public static Direction getDirection(@NonNull Localizable start, @NonNull Localizable end){
         return getDirection(start.getX(), start.getY(), end.getX(), end.getY());
+    }
+
+    @NotNull
+    public static String getShortMonthName(int currentMonthNumber) {
+        switch (currentMonthNumber){
+            case 1: return "Ene";
+            case 2: return "Feb";
+            case 3: return "Mar";
+            case 4: return "Abr";
+            case 5: return "May";
+            case 6: return "Jun";
+            case 7: return "Jul";
+            case 8: return "Ago";
+            case 9: return "Sep";
+            case 10: return "Oct";
+            case 11: return "Nov";
+            case 12: return "Dic";
+            default: return "";
+        }
     }
 
     public enum Direction {

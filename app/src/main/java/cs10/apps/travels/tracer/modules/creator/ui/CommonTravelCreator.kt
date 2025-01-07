@@ -8,13 +8,14 @@ import cs10.apps.common.android.ui.DatePickerFragment
 import cs10.apps.common.android.ui.FormActivity
 import cs10.apps.travels.tracer.R
 import cs10.apps.travels.tracer.Utils
+import cs10.apps.travels.tracer.constants.ResultCodes
 import cs10.apps.travels.tracer.databinding.ModuleRedSubeBinding
 import cs10.apps.travels.tracer.db.DatabaseFinder
 import cs10.apps.travels.tracer.db.MiDB
 import cs10.apps.travels.tracer.model.Viaje
 import cs10.apps.travels.tracer.modules.RedSube.Companion.getPercentageToPay
 import cs10.apps.travels.tracer.notification.NotificationCenter
-import java.util.*
+import java.util.Calendar
 
 abstract class CommonTravelCreator : FormActivity() {
 
@@ -89,11 +90,13 @@ abstract class CommonTravelCreator : FormActivity() {
             // Update DEC 2022: now you can create travels of +1 people
             for (i in 1..viaje.peopleCount) dao.insert(viaje)
 
-            // create notification
-            with(NotificationCenter()){
+            // create notification (only if travel is unfinished and day equals current)
+            val today = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+
+            if (viaje.endHour == null && viaje.day == today) with(NotificationCenter()){
                 createChannel(this@CommonTravelCreator)
                 createNewStartedTravelNotification(this@CommonTravelCreator)
-                scheduleBalanceSummary(this@CommonTravelCreator)
+                setResult(ResultCodes.OPEN_LIVE_FRAGMENT)
             }
 
             doInForeground { finish() }

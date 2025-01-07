@@ -30,7 +30,7 @@ class CreatorVM(application: Application) : AndroidViewModel(application) {
 
     private fun loadStops(location: Location?, type: TransportType?){
         val startOnes = db.paradasDao().all.filter { p -> type == null || p.tipo == type.ordinal }
-        val endOnes = db.paradasDao().allOrderedByMostVisited.filter { p -> type == null || p.tipo == type.ordinal }
+        val endOnes = db.paradasDao().all.filter { p -> type == null || p.tipo == type.ordinal }
 
         // order start ones by proximity
         location?.let { Utils.orderByProximity(startOnes, it.latitude, it.longitude) }
@@ -49,7 +49,7 @@ class CreatorVM(application: Application) : AndroidViewModel(application) {
     }
 
     private fun predict(startOnes: Iterable<Parada>, endOnes: Iterable<Parada>) : LikelyTravel? {
-        val h = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        val h = Calendar.getInstance().get(Calendar.HOUR_OF_DAY) - 1
         var startIndex = 0
         var v: Viaje? = null
 

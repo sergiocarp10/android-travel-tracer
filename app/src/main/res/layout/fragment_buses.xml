@@ -7,6 +7,33 @@
     android:layout_height="match_parent"
     tools:context=".ui.stats.MonthSummaryFragment">
 
+    <!-- Rounded Tabs -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/tabs_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="20dp"
+        app:strokeWidth="1dp"
+        app:cardCornerRadius="18dp">
+
+        <!-- tabIndicatorGravity=stretch paints selected -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/rounded_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/bus"
+            app:tabIndicatorGravity="stretch"
+            app:tabSelectedTextColor="@color/white">
+
+
+
+        </com.google.android.material.tabs.TabLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
     <TextView
         android:id="@+id/title"
         style="@style/TextAppearance.AppCompat.Large"
@@ -17,7 +44,7 @@
         android:layout_marginVertical="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tabs_box" />
 
     <ImageView
         android:id="@+id/iv_edit"
@@ -60,7 +87,7 @@
             android:id="@+id/coffee_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/ic_coffee"
+            android:src="@drawable/ic_railway"
             app:layout_constraintTop_toTopOf="@id/bus_icon"
             app:layout_constraintBottom_toBottomOf="@id/bus_icon"
             app:layout_constraintStart_toStartOf="@id/coffee_pb"

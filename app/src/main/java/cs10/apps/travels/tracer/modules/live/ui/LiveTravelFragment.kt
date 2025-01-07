@@ -38,11 +38,13 @@ import cs10.apps.travels.tracer.modules.live.model.SwitcherText
 import cs10.apps.travels.tracer.modules.live.viewmodel.LiveVM
 import cs10.apps.travels.tracer.modules.live.viewmodel.WaitingVM
 import cs10.apps.travels.tracer.notification.NotificationCenter
+import cs10.apps.travels.tracer.utils.ColorUtils
 import cs10.apps.travels.tracer.viewmodel.LocationVM
 import cs10.apps.travels.tracer.viewmodel.RootVM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Calendar
+import java.util.concurrent.TimeUnit
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -97,7 +99,7 @@ class LiveTravelFragment : CS_Fragment() {
         observeLiveVM()
 
         waitingVM.stopHere.observe(viewLifecycleOwner) {
-            liveWaitingView.setStopHere(it)
+            liveWaitingView.setStopHere(it, requireActivity())
         }
 
         locationVM.getLiveData().observe(viewLifecycleOwner) {
@@ -132,24 +134,15 @@ class LiveTravelFragment : CS_Fragment() {
         liveWaitingView.setVisibility(false)
         updateTabs(false)
 
-        //basicSwitcher.replaceContent("Desde ${t.nombrePdaInicio}", 0)
-        //basicSwitcher.replaceContent("Hasta ${t.nombrePdaFin}", 1)
-        //basicSwitcher.replaceContent(SwitcherText("from", "Desde ${t.nombrePdaInicio}"), 0)
-        //basicSwitcher.replaceContent(SwitcherText("to", "Hasta ${t.nombrePdaFin}"), 1)
         basicSwitcher.start()
 
         binding.linearProgressContent.adapter = stagesAdapter
         binding.linearProgressContent.layoutManager = LinearLayoutManager(requireContext())
-
-        //binding.startLocation.text = t.nombrePdaInicio
-        //binding.startTime.text = Utils.hourFormat(t.startHour, t.startMinute)
-
-        //binding.endLocation.text = t.nombrePdaFin
-
         binding.lineTitle.text = t.lineInformation
         binding.buttonDrawing.setImageDrawable(Utils.getTypeDrawable(t.tipo, context))
         binding.topCardView.setCardBackgroundColor(t.color ?:
-            ContextCompat.getColor(binding.root.context, Utils.colorForType(t.tipo)))
+            ContextCompat.getColor(binding.root.context, ColorUtils.colorFor(t.linea, t.tipo, t.nombrePdaInicio))
+        )
 
         rootVM.disableLoading()
     }
@@ -279,7 +272,8 @@ class LiveTravelFragment : CS_Fragment() {
                     val prefs = requireContext().getSharedPreferences("eta_notified", Context.MODE_PRIVATE)
                     val scheduled = prefs.getLong("last_id", -1)
                     if (scheduled != id) {
-                        NotificationCenter().scheduleAskNotification(requireContext(), (it * 60000).toLong())
+                        NotificationCenter().scheduleAskNotification(requireContext(), TimeUnit.MINUTES.toMillis(it.toLong() - 4L))
+                        if (it > 20) NotificationCenter().scheduleNotifyOthersReminder(requireContext(), TimeUnit.MINUTES.toMillis(it.toLong() + 10L))
                         prefs.edit().putLong("last_id", id).apply()
                     }
                 }
